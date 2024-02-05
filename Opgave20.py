@@ -35,7 +35,7 @@ class Grid:
         finishnodes=[node for (node,color2,times) in self.finishingnodes if color==color2 for i in range(times)]
         return startnodes,finishnodes
     
-    #startnodes=[node for (node,color2,times) in self.startingnodes if color==color2 for i in range(times)]
+
     def FindWordsColorStart(self,color,words,startnodes,finishnodes):
 
         
@@ -54,12 +54,8 @@ class Grid:
                 node.AddOutcomingConnection(outcomingconnection)
         startnodes.append(node)
         words[-1].pop().symbol
-        #print("popped: ", ,node.symbol)
-        if node in startnodes and words[-1]!=[]:
-           # if words[-1][-1]!=" ":
 
-                #print("not a space",words[-1][-1])
-            #    #raise(RuntimeError)
+
             if words[-1][-1]==" ":#else:
                 words[-1].pop()        
         
@@ -73,9 +69,9 @@ class Grid:
             raise(RuntimeError)
         
         if node in finishnodes:
-           # print(len(finishnodes),node.symbol)
+
             finishnodes.remove(node)
-            #words.insert(0,words[-1])
+
             
             if startnodes!=[]:
                 words[-1].append(" ")
@@ -87,29 +83,24 @@ class Grid:
                 
                 if [connection for node2 in self.nodesdic.values() for connection in node2.outcomingconnectionslist if connection.color==color]==[]:
                     words[-1].append(" ")
-                   # print(len(finishnodes),node.symbol,"here")
                     words.insert(0,words[-1].copy())
-                    #print(len(words))
+
                 
             finishnodes.append(node)
         
         for outcomingconnection in node.outcomingconnectionslist.copy():
            if outcomingconnection.color==color:
-               # print(len(node.outcomingconnectionslist.copy()),node.symbol,outcomingconnection.NodeTo,len(words),len(words[-1]))
+
                 node.RemoveOutcomingConnection(outcomingconnection)
                 grid.FindWordsColor(outcomingconnection.NodeTo,color,words,startnodes,finishnodes)
                 node.AddOutcomingConnection(outcomingconnection) 
         
         if node in finishnodes:
-        #    if words[-1][-1]!=" ":
-         #       print("not a space",words[-1][-1])
-          #      raise(RuntimeError)
-            if words[-1][-1]==" ":# else:
+
+            if words[-1][-1]==" ":
                  words[-1].pop()
         words[-1].pop()
-        #print("popped: ", .symbol,node.symbol)
-      #  if len(words[-1])>9:
-            #print(words[-1][9].symbol)
+
         return words
 
 
@@ -140,8 +131,7 @@ class Node:
 
     def __str__(self):
         return self.translate
-        #return self.symbol
-        #print(self.symbol)
+
         "^"
     
     def AddIncomingConnection(self,connection):
@@ -224,10 +214,10 @@ for breakconnection in breakconnections:
     nodelst[breakconnection[0]].AddBreakConnection(BreakConnection(breakconnection[0],breakconnection[1]))
     nodelst[breakconnection[1]].AddBreakConnection(BreakConnection(breakconnection[0],breakconnection[1]))
 
-#print(list(nodelst.values()))
+
 grid=Grid(nodelst)
 
-#rood moeilijkheid
+
 translationlst=[('A', 'v'), ('B', 'a'), ('C', 'o'), ('D', 'g'), ('E', 'c'),
                  ('F', 'r'), ('G', 's'), ('H', 'b'), ('I', 'w'), ('J', 'd'),
                    ('K', 'f'), ('L', 'l'), ('M', 'h'), ('N', 'i'), ('O', 'x'),
@@ -237,7 +227,7 @@ for (symb,trans) in translationlst:
     nodelst[symb].translate=trans
 
 
-#print(mult)
+
 
 color="orange"
 words=grid.FindWordsColorStart(color,[[]],*grid.StartFinishNodesColor(color))
@@ -298,7 +288,3 @@ for word in words:
     if " eenzaam " in strings:
         print(strings)
 
-#woorden: welke vraag blijft complexe met deze dit mee stap valt 
-#moeilijkheid kerst jaar de qua eenzaam na
-#na deze complexe vraag, blijft de stap qua moeilijkheid mee valt welke letter deze kerst dit jaar eenzaam blijft
-#na deze complex stap, valt de vraag mee qua moeilijkheid: welke letter eenzaam met kerst dit jaar blijft
